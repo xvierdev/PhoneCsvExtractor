@@ -20,6 +20,8 @@ def opencsv ():
             with open(filename, 'r') as filecsv:
                 content_lines = filecsv.read().split('\n')
                 fone_col = find_fone_col(content_lines[0])
+                if fone_col == False:
+                    fone_col = int(input('Coluna de telefones não encontrada, informe manualmente:'))
                 for line in content_lines[1:]:
                     total_lines += 1
                     fone = clean_caracter(line.split(',')[fone_col])
