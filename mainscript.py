@@ -22,17 +22,18 @@ def opencsv ():
                 fone_col = find_fone_col(content_lines[0])
                 if fone_col == False:
                     fone_col = int(input('Coluna de telefones não encontrada, informe manualmente:'))
+                print(fone_col)
                 for line in content_lines[1:]:
                     total_lines += 1
-                    fone = clean_caracter(line.split(',')[fone_col])
-                    if fone != False:
-                        tel_list.append(fone)
+                    if fone_col < len(fone):
+                        fone = clean_caracter(line.split(',')[fone_col])
+                        if fone != False:
+                            tel_list.append(fone)
                         total_fones += 1
                 break
         except FileNotFoundError:
             print('Arquivo não encontrado!')
             filename = input('Digite o caminho do arquivo ou exit para sair:')
-
 
 # Encontra a coluna com o termo 'telefone'
 def find_fone_col(data):

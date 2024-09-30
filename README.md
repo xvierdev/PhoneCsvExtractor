@@ -13,7 +13,8 @@ Esse projeto tem o objetivo de estrair números de telefone oriundos de arquivos
 
 1. Implementar a opção de escolha do nome do arquivo ao salvar.
 2. Implementar a fucionalidade de ignorar números duplicados.
-3. Empacotar a aplicação para facilitar a usabilidade.
+3. Relatório de erros epecificando as linhas onde o erro ocorre no arquivo csv.
+4. Empacotar a aplicação para facilitar a usabilidade.
 
 # Utilização do script.
 
