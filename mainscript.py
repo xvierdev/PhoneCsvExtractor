@@ -31,6 +31,7 @@ def opencsv ():
                 break
         except FileNotFoundError:
             print('Arquivo não encontrado!')
+            filename = input('Digite o caminho do arquivo ou exit para sair:')
 
 
 # Encontra a coluna com o termo 'telefone'
