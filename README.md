@@ -9,10 +9,10 @@ Esse projeto tem o objetivo de estrair números de telefone oriundos de arquivos
 1. Extrair os telefones da coluna indicada e padronizálos (DDI+DDD+9XXXX-XXXX)
 1. Solicitar o nodo do arquivo a ser salvo.
 1. Salvar o arquivo com os links redirecionáveis para o whatsapp web para a comunicação com cada telefone.
+1. Ignorar números duplicados.
 
 # Objetivos futuros.
 
-1. Implementar a fucionalidade de ignorar números duplicados.
 1. Relatório de erros epecificando as linhas onde o erro ocorre no arquivo csv.
 1. Empacotar a aplicação para facilitar a usabilidade.
 
