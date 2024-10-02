@@ -4,6 +4,7 @@ import webbrowser
 
 DDI = '55'
 DDD = '12'
+DDI_VALID = ('12', '11')
 WPP_WEB = 'https://api.whatsapp.com/send?phone='
 START = '<!DOCTYPE html>\n<html>\n<body>'
 END = '\n</body>\n</html>'
@@ -37,7 +38,7 @@ def opencsv ():
             new_line =  line.split(',')
             try:
                 fone = clean_caracter(new_line[fone_col])
-                if fone != False:
+                if valid_number(fone) != False:
                     global total_fones
                     tel_list.append(fone)
                     total_fones += 1
@@ -58,10 +59,11 @@ def find_fone_col(data):
 # Valida o número de telefone.
 def valid_number(fone):
     criterio1 = fone.isnumeric()
-    criterio2 = len(fone) >= 9
-    criterio3 = len(fone) <= 11
+    criterio2 = len(fone) == 9 and fone[0] == '9'
+    criterio3 = len(fone) == 11 and fone[:2] in DDI_VALID
     criterio4 = len(fone) == 13 and fone[:2] == '55'
-    return criterio1 and (criterio1 and criterio3 or criterio4)
+    fone_valid = criterio1 and (criterio2 or criterio3 or criterio4) 
+    return fone_valid
 
 # limpa os caracter indesejáveis do número de telefone e acrescenta o DDI e DDD se necessário.
 def clean_caracter (fone):
@@ -73,29 +75,33 @@ def clean_caracter (fone):
             fone = DDI + fone
         return fone
     else:
-        return False
+        return ''
 
 # Verifica a existência do arquivo e questiona sua sobrescrita
 def save_msg ():
     savefile = input('Salvar como: ') + '.html'
-    while  True:
+    while True:
         if os.path.exists(savefile):
-            if input('O arquivo já existe! Sobrescrever? s/n') == 'n':
+            if input('O arquivo já existe! Sobrescrever? s/n ') == 'n':
                 savefile = input('Nome do arquivo: ') + '.html'
+            else:
+                return savefile
         else:
-            return savefile
-                
+            return savefile               
 
 # Grava os resultados em um arquivo HTML
 def write_results():
-    filename = save_msg()
-    with open(filename, 'w') as filehtml:
-        filehtml.write(START)
-        for tel in tel_list:
-            filehtml.write(f'<a href="{WPP_WEB + tel}">{tel}</a><input type="checkbox"><br>\n')
-        filehtml.write(END)
-    print(f'{filename} criado com sucesso!')
-    webbrowser.open(f'{filename}')
+    if len(tel_list) > 0:
+        filename = save_msg()
+        with open(filename, 'w') as filehtml:
+            filehtml.write(START)
+            for tel in tel_list:
+                filehtml.write(f'<a href="{WPP_WEB + tel}">{tel}</a><input type="checkbox"><br>\n')
+            filehtml.write(END)
+        print(f'{filename} criado com sucesso!')
+        webbrowser.open(f'{filename}')
+    else:
+        print('Nenhum número de telefone válido encontrado.')
 
 opencsv()
 print(f'Encontrado {total_fones} telefones em um total de {total_lines} linhas.')
