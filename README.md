@@ -1,24 +1,24 @@
 # Extrator de telefones oriundos de arquivos CSV
 
-Esse projeto tem o objetivo de estrair números de telefone oriundos de arquivos cvs provenientes de fontes diversas, pensado para agilizar a o trabalho dos professores ao obterem os telefones dos alunos por meio de formulários online para posteriormente enviar-lhes mensagens e adicionálos aos devidos grupos de turmas no WhatsApp.
+Esse projeto tem o objetivo de estrair números de telefone oriundos de arquivos .csv provenientes de fontes diversas, pensado para agilizar a o trabalho dos professores ao obterem os telefones dos alunos por meio de formulários online para posteriormente enviar-lhes mensagens e adicionálos aos devidos grupos de turmas no WhatsApp.
 
-# Requisitos:
+# Funções implementadas:
 
 1. Abrir um arquivo csv especificado pelo usuário
-2. Localizar a coluna relacionada ao telefone ou perguntar ao usuário caso não seja possível determinar
-3. Extrair os telefones da coluna indicada e padronizálos
-4. Criar um arquivo html com os links redirecionáveis para o whatsapp web para a comunicação com cada telefone.
+1. Localizar a coluna relacionada ao telefone ou perguntar ao usuário caso não seja possível determinar
+1. Extrair os telefones da coluna indicada e padronizálos (DDI+DDD+9XXXX-XXXX)
+1. Solicitar o nodo do arquivo a ser salvo.
+1. Salvar o arquivo com os links redirecionáveis para o whatsapp web para a comunicação com cada telefone.
 
 # Objetivos futuros.
 
-1. Implementar a opção de escolha do nome do arquivo ao salvar.
-2. Implementar a fucionalidade de ignorar números duplicados.
-3. Relatório de erros epecificando as linhas onde o erro ocorre no arquivo csv.
-4. Empacotar a aplicação para facilitar a usabilidade.
+1. Implementar a fucionalidade de ignorar números duplicados.
+1. Relatório de erros epecificando as linhas onde o erro ocorre no arquivo csv.
+1. Empacotar a aplicação para facilitar a usabilidade.
 
-# Utilização do script.
+# Manual de uso
 
-1. Ao executar o script informe a localização do arquivo csv contendo os dados.
-2. O script procura pela coluna 'telefone', caso a mesma não existir pergunta ao usuário.
-3. Localizada ou indicada a coluna telefone, o script padroniza todos os números removendo espaços e caracteres não numéricos.
-4. Ao término do processo é criado um arquivo log.html contendo os links para acesso dos contatos via WhatsApp Web.
+1. Ao executar o script, informe o nome do arquivo csv a ser aberto.
+1. Se o script perguntar pela coluna telefone, informe manualmente.
+1. Ao final da validação informe o nome do relatório a ser salve. Ex. turma1
+1. O arquivo será aberto automaticamente no browser padrão.
