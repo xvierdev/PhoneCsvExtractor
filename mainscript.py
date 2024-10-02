@@ -4,7 +4,7 @@ import webbrowser
 
 DDI = '55'
 DDD = '12'
-DDI_VALID = ('12', '11')
+DDD_VALID = ('12', '11')
 WPP_WEB = 'https://api.whatsapp.com/send?phone='
 START = '<!DOCTYPE html>\n<html>\n<body>'
 END = '\n</body>\n</html>'
@@ -40,10 +40,11 @@ def opencsv ():
                 fone = clean_caracter(new_line[fone_col])
                 if valid_number(fone) != False:
                     global total_fones
-                    tel_list.append(fone)
-                    total_fones += 1
+                    if fone not in tel_list:
+                        tel_list.append(fone)
+                        total_fones += 1
             except IndexError:
-                print('Linha inválida.')
+                total_lines -= 1
 
 # Encontra a coluna com o termo 'telefone'
 def find_fone_col(data):
@@ -60,9 +61,9 @@ def find_fone_col(data):
 def valid_number(fone):
     criterio1 = fone.isnumeric()
     criterio2 = len(fone) == 9 and fone[0] == '9'
-    criterio3 = len(fone) == 11 and fone[:2] in DDI_VALID
-    criterio4 = len(fone) == 13 and fone[:2] == '55'
-    fone_valid = criterio1 and (criterio2 or criterio3 or criterio4) 
+    criterio3 = len(fone) == 11 and fone[:2] in DDD_VALID and fone[2] == '9'
+    criterio4 = len(fone) == 13 and fone[:2] == '55' and fone [2:4] in DDD_VALID and fone[4] == '9'
+    fone_valid = criterio1 and (criterio2 or criterio3 or criterio4)    
     return fone_valid
 
 # limpa os caracter indesejáveis do número de telefone e acrescenta o DDI e DDD se necessário.
