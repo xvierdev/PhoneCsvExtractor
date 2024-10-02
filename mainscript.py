@@ -4,36 +4,45 @@ import webbrowser
 
 DDI = '55'
 DDD = '12'
+WPP_WEB = 'https://api.whatsapp.com/send?phone='
+START = '<!DOCTYPE html>\n<html>\n<body>'
+END = '\n</body>\n</html>'
+
 tel_list = []
 total_lines = 0
 total_fones = 0
-WPP_WEB = 'https://api.whatsapp.com/send?phone='
 
-# Pergunta pelo arquivo a ser aberto e abre-o caso o endereço esteja correto ou lança uma exessão se não for possível abrir o arquivo.
-def opencsv ():
-    global filename, total_fones, total_lines
-    filename = input('Digite o caminho do arquivo ou exit para sair:')
-    if filename == 'exit':
-        exit()
+# Verifica se o arquivo existe
+def check_filename ():
     while True:
-        try:
-            with open(filename, 'r') as filecsv:
-                content_lines = filecsv.read().split('\n')
-                fone_col = find_fone_col(content_lines[0])
-                if fone_col == False:
-                    fone_col = int(input('Coluna de telefones não encontrada, informe manualmente:'))
-                print(fone_col)
-                for line in content_lines[1:]:
-                    total_lines += 1
-                    if fone_col < len(fone):
-                        fone = clean_caracter(line.split(',')[fone_col])
-                        if fone != False:
-                            tel_list.append(fone)
-                        total_fones += 1
-                break
-        except FileNotFoundError:
-            print('Arquivo não encontrado!')
-            filename = input('Digite o caminho do arquivo ou exit para sair:')
+        filename = input('Caminho do arquivo CSV ou exit para sair: ')
+        if filename == 'exit' or filename == '':
+            exit()
+        if filename[-4:] != '.csv':
+            filename = filename + '.csv'
+        if os.path.exists(filename):
+            return filename
+        else:
+            print(f'Arquivo "{filename}" não encontrado.')
+
+# Pergunta pelo arquivo a ser aberto e abre-o caso o endereço esteja correto ou lança uma excessão se não for possível abrir o arquivo.
+def opencsv ():
+    file_name = check_filename()
+    with open(file_name, 'r') as filecsv:
+        global total_lines
+        content_lines = filecsv.read().split('\n')
+        total_lines = len(content_lines)
+        fone_col = find_fone_col(content_lines[0])
+        for line in content_lines[1:]:
+            new_line =  line.split(',')
+            try:
+                fone = clean_caracter(new_line[fone_col])
+                if fone != False:
+                    global total_fones
+                    tel_list.append(fone)
+                    total_fones += 1
+            except IndexError:
+                print('Linha inválida.')
 
 # Encontra a coluna com o termo 'telefone'
 def find_fone_col(data):
@@ -66,18 +75,27 @@ def clean_caracter (fone):
     else:
         return False
 
+# Verifica a existência do arquivo e questiona sua sobrescrita
+def save_msg ():
+    savefile = input('Salvar como: ') + '.html'
+    while  True:
+        if os.path.exists(savefile):
+            if input('O arquivo já existe! Sobrescrever? s/n') == 'n':
+                savefile = input('Nome do arquivo: ') + '.html'
+        else:
+            return savefile
+                
+
 # Grava os resultados em um arquivo HTML
 def write_results():
-    savefile = 'log.html'
-    start = '<!DOCTYPE html>\n<html>\n<body>'
-    end = '\n</body>\n</html>'
-    with open(savefile, 'w') as filehtml:
-        filehtml.write(start)
+    filename = save_msg()
+    with open(filename, 'w') as filehtml:
+        filehtml.write(START)
         for tel in tel_list:
             filehtml.write(f'<a href="{WPP_WEB + tel}">{tel}</a><input type="checkbox"><br>\n')
-        filehtml.write(end)
-    print('log.html criado com sucesso.')
-    webbrowser.open('log.html')
+        filehtml.write(END)
+    print(f'{filename} criado com sucesso!')
+    webbrowser.open(f'{filename}')
 
 opencsv()
 print(f'Encontrado {total_fones} telefones em um total de {total_lines} linhas.')
