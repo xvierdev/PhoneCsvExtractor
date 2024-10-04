@@ -1,5 +1,5 @@
 # script de extração de dados de arquivos csv
-import os
+from os import path
 import webbrowser
 
 DDI = '55'
@@ -21,7 +21,7 @@ def check_filename ():
             exit()
         if filename[-4:] != '.csv':
             filename = filename + '.csv'
-        if os.path.exists(filename):
+        if path.exists(filename):
             return filename
         else:
             print(f'Arquivo "{filename}" não encontrado.')
@@ -82,7 +82,7 @@ def clean_caracter (fone):
 def save_msg ():
     savefile = input('Salvar como: ') + '.html'
     while True:
-        if os.path.exists(savefile):
+        if path.exists(savefile):
             if input('O arquivo já existe! Sobrescrever? s/n ') == 'n':
                 savefile = input('Nome do arquivo: ') + '.html'
             else:
